@@ -8,7 +8,13 @@ export const pacienteModel = {
     },
     obtenerIdPaciente: async (id:number) => {
         return await prisma.paciente.findUnique({
-            where: {id:id}
+            where: {id:id},
+            include:{
+                cita: {
+                    orderBy:{id:"asc"},
+                    select:{estado:true, fecha:true, medico:true},
+                },
+            },
         });
     },
     crearPaciente: async (nombre: string, fechaNacimiento: Date, email:string, telefono: string,) => {
